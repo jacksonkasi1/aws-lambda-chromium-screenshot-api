@@ -1,0 +1,29 @@
+{
+  "name": "aws-lambda-chromium-screenshot-api",
+  "version": "1.0.0",
+  "description": "aws-lambda-chromium-screenshot-api lambda server",
+  "author": "jacksonkasi",
+  "license": "MIT",
+  "main": "src/handler.ts",
+  "scripts": {
+    "dev": "sls offline start",
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "^127.0.0",
+    "@types/node": "^22.5.4",
+    "serverless": "^3.39.0",
+    "serverless-esbuild": "^1.52.1",
+    "serverless-offline": "^13.6.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "hono": "^4.5.11",
+    "puppeteer-core": "^23.3.0"
+  }
+}

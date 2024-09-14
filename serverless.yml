@@ -1,0 +1,53 @@
+service: aws-lambda-chromium-screenshot-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+  memorySize: 1024
+  stage: production
+  timeout: 30
+  environment:
+    NODE_ENV: production
+    VERSION: v20.0
+    IS_OFFLINE: ${opt:isOffline, 'false'} # Handle local environment
+    # DEBUG: puppeteer:* # Enable debugging
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+package:
+  exclude:
+    - node_modules/**
+
+custom:
+  # serverless-offline:
+  #   httpPort: 5000
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    target: "node20"
+    define: { "require.resolve": "undefined" }
+    platform: "node"
+    concurrency: 10
+
+
+functions:
+  server:
+    handler: src/index.handler
+    layers:
+      - arn:aws:lambda:xxxx:xxxxx:layer:chromium:xxx
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+
