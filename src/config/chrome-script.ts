@@ -20,9 +20,11 @@ export const getChrome = async (url: string) => {
       // Define the temporary directory for local development
       userDataDir = path.join(os.tmpdir(), 'puppeteer_dev_profile');
     } else {
-      // Serverless environment: Use Chromium from the Lambda layer
+      // Set the executable path to the chromium binary inside the bin directory
+      const lambdaPath = "/opt/nodejs/node_modules/@sparticuz/chromium/bin";
+
       console.log("Launching Chromium in serverless environment...");
-      executablePath = await chromium.executablePath();
+      executablePath = await chromium.executablePath(lambdaPath);
     }
 
 
@@ -33,7 +35,7 @@ export const getChrome = async (url: string) => {
         ...chromium.args,
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        // '--window-size=1920,1080',
+        '--window-size=1920,1080',
       ],
       userDataDir, // Only applied in local development
     });
